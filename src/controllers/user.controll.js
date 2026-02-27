@@ -18,6 +18,12 @@ import {User} from "../models/user.model.js"
     
     const {fullName,email,username,password}= req.body
       console.log("email:",email)
+      //  console.log(fullName)
+      //   console.log(username)
+      //    console.log(password)
+      //    console.log(avatarLocalPath)
+      //    console.log(coverImageLocalPath)
+
     //  if (fullName===""){
     //     throw new ApiError(400,"fullname is required")
     //  }
@@ -33,9 +39,11 @@ import {User} from "../models/user.model.js"
        })
        if(existedUser){
          throw  new ApiError (409,"User with email or username already exists")
-       }
-        const avatarLocalPath=req.files?.avatar[0]?.path;
-        const coverImageLocalPath= req.files?.coverImage[0]?.path;
+       } 
+
+       
+        const avatarLocalPath = req.files?.avatar?.[0]?.path;
+        const coverImageLocalPath = req.files?.coverImage?.[0]?.path;
     
         if(!avatarLocalPath ){
             throw  new ApiError (400,"avatar file is required ")
@@ -57,9 +65,9 @@ import {User} from "../models/user.model.js"
             username:username.toLowerCase()
          })
 
-           const createUser= await User.findById(User._id).select(
-            "-password -refreshToken "
-           ) 
+          const createUser = await User.findById(user._id).select(
+  "-password -refreshToken"
+)
            if(!createUser){
             throw ApiError(500,"something went wrong while registering the user")
            }
